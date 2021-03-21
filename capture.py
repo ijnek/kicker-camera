@@ -2,6 +2,8 @@ import streamlink
 import cv2
 from datetime import datetime
 
+num_frames = 150
+
 def record():
     streams = streamlink.streams('twitch.tv/kenjibrameld')
     url = streams['best'].url
@@ -19,7 +21,7 @@ def record():
 
     # while True:
 
-    for _ in range(30):
+    for _ in range(num_frames):
         succ, frame = cap.read()
         if succ:
             # cv2.imshow("Capturing",frame)
