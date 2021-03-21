@@ -3,3 +3,4 @@ streamlink
 opencv-python
 Flask
 pyyaml
+argparse
