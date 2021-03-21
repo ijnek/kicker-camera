@@ -13,6 +13,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
+from capture import record
+
 app = Flask(__name__)
 
 yaml_file = open("application.yml", 'r')
@@ -44,6 +46,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    filename = capture.record()
+    print(filename)
+
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=filename))

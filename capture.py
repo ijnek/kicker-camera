@@ -33,3 +33,5 @@ def record():
 
     cap.release()
     out.release()
+
+    return name
