@@ -70,3 +70,6 @@ class Upload:
         field = 'webViewLink'
         response = self.service.files().get(fileId=file_id, fields=field).execute()
         return response.get(field)
+
+if __name__ == "__main__":
+    print("Uploaded file to: " + Upload().upload("output.mp4"))

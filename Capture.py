@@ -6,8 +6,8 @@ num_frames = 150
 
 class Capture:
 
-    def record(self):
-        streams = streamlink.streams('twitch.tv/kenjibrameld')
+    def record(self, twitch_user):
+        streams = streamlink.streams('twitch.tv/' + twitch_user)
 
         if not streams:
             print("Stream not found/active")
@@ -17,8 +17,8 @@ class Capture:
         cap = cv2.VideoCapture(url)
 
         now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        name = "recording_" + current_time + '.mp4'
+        current_time = now.strftime("%H時%M分%S秒")
+        name = "動画" + current_time + '.mp4'
 
         width = int(cap.get(3))
         height = int(cap.get(4))
@@ -42,3 +42,8 @@ class Capture:
         out.release()
 
         return name
+
+if __name__ == "__main__":
+    filename = Capture().record('kenjibrameld')
+    if filename:
+        print("Recorded file: " + filename)

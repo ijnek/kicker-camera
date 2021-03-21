@@ -47,13 +47,13 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    filename = Capture().record()
+    filename = Capture('kenjibrameld').record()
 
     if filename:
         link = Upload().upload(filename)
-        text = link
+        text = "動画が準備できました！\n" + link
     else:
-        text = "Could not locate stream. Please ensure the stream is up and running."
+        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。”
 
     line_bot_api.reply_message(
             event.reply_token,
