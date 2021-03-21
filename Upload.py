@@ -44,12 +44,15 @@ class Upload:
         link = self.getWebViewLink(file.get('id'))
         print("Obtained shareable link.")
 
-        return link
+        thumbnail_link = self.getThumbnailLink(file.get('id'))
+        print("Obtained thumbnail link.")
+
+        return link, thumbnail_link
 
     def uploadFile(self, name):
         # https://developers.google.com/drive/api/v3/manage-uploads#python
         file_metadata = {'name': name}
-        media = MediaFileUpload(name, mimetype='video/avi')
+        media = MediaFileUpload(name, mimetype='video/mp4')
         file = self.service.files().create(body=file_metadata,
                                             media_body=media,
                                             fields='id').execute()
@@ -71,5 +74,10 @@ class Upload:
         response = self.service.files().get(fileId=file_id, fields=field).execute()
         return response.get(field)
 
+    def getThumbnailLink(self, file_id):
+        field = 'thumbnailLink'
+        response = self.service.files().get(fileId=file_id, fields=field).execute()
+        return response.get(field)
+
 if __name__ == "__main__":
-    print("Uploaded file to: " + Upload().upload("output.mp4"))
+    print("Uploaded file to: " + Upload().upload("output.mp4")[0])

@@ -45,42 +45,33 @@ def callback():
 
     return 'OK'
 
-'''
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = Capture('kenjibrameld').record()
 
     if filename:
-        link = Upload().upload(filename)
-        text = "動画が準備できました！\n" + link
+        link, thumbnail_link = Upload().upload(filename)
+
+        messages = make_button_template(link, thumbnail_link)
     else:
         text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。”
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=text))
 
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=text))
-'''
-
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    messages = make_button_template()
-    line_bot_api.reply_message(
-        event.reply_token,
-        messages
-    )
-
-def make_button_template():
+def make_button_template(link, thumbnail_link):
     message_template = TemplateSendMessage(
         alt_text="にゃーん",
         template=ButtonsTemplate(
-            text="どこに表示されるかな？",
-            title="タイトルですよ",
+            text=filename,
+            title="動画が準備できました！"
             image_size="cover",
-            thumbnail_image_url="https://www.i-sedai.com/pet/column/image/C0108_1.jpg",
+            thumbnail_image_url=thumbnail_link
             actions=[
                 URIAction(
-                    uri="https://google.com",
-                    label="URIアクションのLABEL"
+                    uri=link
+                    label="動画を見る"
                 )
             ]
         )
