@@ -2,9 +2,6 @@
 
 import line
 from argparse import ArgumentParser
-from capture import record
-from upload import upload
-
 
 arg_parser = ArgumentParser(
     usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
