@@ -52,8 +52,12 @@ def handle_message(event):
 
     if filename:
         link, thumbnail_link = Upload().upload(filename)
-
         messages = make_button_template(filename, link, thumbnail_link)
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            messages
+        )
     else:
         text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
         line_bot_api.reply_message(
