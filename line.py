@@ -48,7 +48,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    filename = Capture('kenjibrameld').record()
+    filename = Capture().record('kenjibrameld')
 
     if filename:
         link, thumbnail_link = Upload().upload(filename)
@@ -62,7 +62,7 @@ def handle_message(event):
 
 def make_button_template(link, thumbnail_link):
     message_template = TemplateSendMessage(
-        alt_text="にゃーん",
+        alt_text="動画",
         template=ButtonsTemplate(
             text=filename,
             title="動画が準備できました！",
