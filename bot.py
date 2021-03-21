@@ -12,7 +12,7 @@ arg_parser = ArgumentParser(
 arg_parser.add_argument('-p', '--port', default=8000, help='port')
 options = arg_parser.parse_args()
 
-line.app.run(port=options.port)
+line.app.run(port=options.port, host="0.0.0.0")
 
 # record()
 # upload()
