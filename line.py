@@ -52,8 +52,8 @@ def handle_message(event):
     print("Filename: " + filename)
 
     if filename:
-        link = Upload().upload(filename)
-        messages = make_button_template(filename, link)
+        link, file_id = Upload().upload(filename)
+        messages = make_button_template(filename, link, file_id)
 
         line_bot_api.reply_message(
             event.reply_token,
@@ -65,14 +65,14 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=text))
 
-def make_button_template(filename, link):
+def make_button_template(filename, link, file_id):
     message_template = TemplateSendMessage(
         alt_text="動画",
         template=ButtonsTemplate(
             text=filename,
             title="動画が準備できました！",
             image_size="cover",
-            thumbnail_image_url="https://drive.google.com/file/d/102KIV_Wvci5uFB1SogJ73JmiQytmaQvZ",
+            thumbnail_image_url="https://drive.google.com/uc?export=view&id=" + id,
             actions=[
                 URIAction(
                     uri=link,
