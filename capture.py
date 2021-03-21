@@ -6,6 +6,11 @@ num_frames = 150
 
 def record():
     streams = streamlink.streams('twitch.tv/kenjibrameld')
+
+    if not streams:
+        print("Stream not found/active")
+        return None
+
     url = streams['best'].url
     cap = cv2.VideoCapture(url)
 

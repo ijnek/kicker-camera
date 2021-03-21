@@ -48,8 +48,13 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = record()
-    link = upload(filename)
+
+    if filename:
+        link = upload(filename)
+        text = link
+    else:
+        text = "Could not locate stream. Please ensure the stream is up and running."
 
     line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=link))
+            event.reply_token,
+            TextSendMessage(text=text))
