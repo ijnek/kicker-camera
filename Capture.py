@@ -18,15 +18,13 @@ class Capture:
 
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-        name = "recording_" + current_time + '.avi'
+        name = "recording_" + current_time + '.mp4'
 
         width = int(cap.get(3))
         height = int(cap.get(4))
 
-        fourcc = cv2.VideoWriter_fourcc(*'MPEG')
-        out = cv2.VideoWriter(name, fourcc, 20.0, (width,height))
-
-        # while True:
+        fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+        out = cv2.VideoWriter(name, fmt, 20.0, (width, height))
 
         for _ in range(num_frames):
             succ, frame = cap.read()
