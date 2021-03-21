@@ -49,6 +49,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = Capture().record('kenjibrameld')
+    print("Filename: " + filename)
 
     if filename:
         link, thumbnail_link = Upload().upload(filename)

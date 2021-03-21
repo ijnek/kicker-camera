@@ -42,10 +42,10 @@ class Upload:
         print("Updated permissions for anyone to see content.")
 
         link = self.getWebViewLink(file.get('id'))
-        print("Obtained shareable link.")
+        print("Obtained shareable link: " + link)
 
         thumbnail_link = self.getThumbnailLink(file.get('id'))
-        print("Obtained thumbnail link.")
+        print("Obtained thumbnail link: " + thumbnail_link)
 
         return link, thumbnail_link
 
