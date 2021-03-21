@@ -72,4 +72,6 @@ class Upload:
         return response.get(field)
 
 if __name__ == "__main__":
-    print("Uploaded file to: " + Upload().upload("output.mp4")[0])
+    link, id = Upload().upload("output.mp4")
+    print("Uploaded file to: " + link)
+    print("File id: " + id)

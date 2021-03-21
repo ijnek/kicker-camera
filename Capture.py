@@ -41,6 +41,8 @@ class Capture:
         cap.release()
         out.release()
 
+        print("Saving file to: " + name)
+
         return name
 
 if __name__ == "__main__":

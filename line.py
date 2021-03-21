@@ -49,7 +49,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = Capture().record('kenjibrameld')
-    print("Filename: " + filename)
 
     if filename:
         link, file_id = Upload().upload(filename)
@@ -72,7 +71,7 @@ def make_button_template(filename, link, file_id):
             text=filename,
             title="動画が準備できました！",
             image_size="cover",
-            thumbnail_image_url="https://drive.google.com/uc?export=view&id=" + id,
+            thumbnail_image_url="https://drive.google.com/uc?export=view&id=" + file_id,
             actions=[
                 URIAction(
                     uri=link,
