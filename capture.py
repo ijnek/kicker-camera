@@ -42,3 +42,5 @@ def record():
     out.release()
 
     return name
+
+Capture().record()

@@ -47,10 +47,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    filename = record()
+    filename = Capture().record()
 
     if filename:
-        link = upload(filename)
+        link = Upload().upload(filename)
         text = link
     else:
         text = "Could not locate stream. Please ensure the stream is up and running."
