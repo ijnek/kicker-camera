@@ -44,7 +44,7 @@ class Upload:
         link = self.getWebViewLink(file.get('id'))
         print("Obtained shareable link: " + link)
 
-        return link, file.get('id')
+        return link
 
     def uploadFile(self, name):
         # https://developers.google.com/drive/api/v3/manage-uploads#python
@@ -72,6 +72,5 @@ class Upload:
         return response.get(field)
 
 if __name__ == "__main__":
-    link, id = Upload().upload("output.mp4")
+    link = Upload().upload("output.mp4")
     print("Uploaded file to: " + link)
-    print("File id: " + id)

@@ -51,8 +51,8 @@ def handle_message(event):
     filename = Capture().record('kenjibrameld')
 
     if filename:
-        link, file_id = Upload().upload(filename)
-        messages = make_button_template(filename, link, file_id)
+        link = Upload().upload(filename)
+        messages = make_button_template(filename, link)
 
         line_bot_api.reply_message(
             event.reply_token,
@@ -64,14 +64,13 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=text))
 
-def make_button_template(filename, link, file_id):
+def make_button_template(filename, link):
     message_template = TemplateSendMessage(
         alt_text="動画",
         template=ButtonsTemplate(
             text=filename,
             title="動画が準備できました！",
             image_size="cover",
-            thumbnail_image_url="https://drive.google.com/uc?export=view&id=" + file_id,
             actions=[
                 URIAction(
                     uri=link,
