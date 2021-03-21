@@ -14,6 +14,7 @@ from linebot.models import (
 )
 
 from capture import record
+from upload import upload
 
 app = Flask(__name__)
 
@@ -47,8 +48,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = record()
-    print(filename)
+    link = upload()
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=filename))
+        TextSendMessage(text=link))
