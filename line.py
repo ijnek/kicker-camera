@@ -16,7 +16,7 @@ from linebot.models import (
 app = Flask(__name__)
 
 yaml_file = open("application.yml", 'r')
-yaml_content = yaml.load(yaml_file)
+yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
 channel_access_token = yaml_content.get('line.bot').get('channel-token')
 channel_secret = yaml_content.get('line.bot').get('channel-secret')
