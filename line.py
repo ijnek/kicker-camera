@@ -13,8 +13,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-from capture import record
-from upload import upload
+from Capture import Capture
+from Upload import Upload
 
 app = Flask(__name__)
 
