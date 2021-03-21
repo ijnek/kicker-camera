@@ -70,7 +70,7 @@ def make_button_template(link, thumbnail_link):
             thumbnail_image_url=thumbnail_link,
             actions=[
                 URIAction(
-                    uri=link
+                    uri=link,
                     label="動画を見る"
                 )
             ]
