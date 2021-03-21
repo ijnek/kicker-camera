@@ -11,6 +11,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+    TemplateSendMessage, ButtonsTemplate, URIAction
 )
 
 from Capture import Capture
@@ -44,7 +45,7 @@ def callback():
 
     return 'OK'
 
-
+'''
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     filename = Capture('kenjibrameld').record()
@@ -58,3 +59,30 @@ def handle_message(event):
     line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=text))
+'''
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    messages = make_button_template()
+    line_bot_api.reply_message(
+        event.reply_token,
+        messages
+    )
+
+def make_button_template():
+    message_template = TemplateSendMessage(
+        alt_text="にゃーん",
+        template=ButtonsTemplate(
+            text="どこに表示されるかな？",
+            title="タイトルですよ",
+            image_size="cover",
+            thumbnail_image_url="https://www.i-sedai.com/pet/column/image/C0108_1.jpg",
+            actions=[
+                URIAction(
+                    uri="https://google.com",
+                    label="URIアクションのLABEL"
+                )
+            ]
+        )
+    )
+    return message_template
