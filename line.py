@@ -55,7 +55,7 @@ def handle_message(event):
 
         messages = make_button_template(link, thumbnail_link)
     else:
-        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。”
+        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
         line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=text))
