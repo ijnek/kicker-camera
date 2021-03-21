@@ -67,7 +67,7 @@ def make_button_template(link, thumbnail_link):
             text=filename,
             title="動画が準備できました！",
             image_size="cover",
-            thumbnail_image_url=thumbnail_link
+            thumbnail_image_url=thumbnail_link,
             actions=[
                 URIAction(
                     uri=link
