@@ -48,12 +48,17 @@ def callback():
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    print("POSTBACK CALLED!")
-    print("Data is: " + event.postback.data)
+    print("INFO: PostbackEvent handle called")
+    twitch_user = event.message.text
+    message = _capture_upload_create_message(twitch_user)
+    line_bot_api.reply_message(
+        event.reply_token,
+        message)
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    print("INFO: MessageEvent handle called")
     twitch_user = event.message.text
     message = _capture_upload_create_message(twitch_user)
     line_bot_api.reply_message(
