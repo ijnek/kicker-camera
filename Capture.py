@@ -30,10 +30,21 @@ class Capture:
         stream_name = twitch_prefix + twitch_user
 
         print("INFO: Attempting to connect to: " + stream_name)
-        streams = streamlink.streams(stream_name)
+
+        try:
+            streams = streamlink.streams(stream_name)
+        except streamlink.PluginError:
+            print("ERROR: Streamlink PluginError. Please check that " +
+                  twitch_user + " is an existing twitch username")
+            return False
+        except streamlink.NoPluginError:
+            print("ERROR: Streamlink NoPluginError. No plugin for the URL " +
+                  "was found.")
+            return False
 
         if not streams:
-            print("ERROR: Stream not found/active")
+            print("ERROR: Stream not active. Please check that the stream " +
+                  "is up.")
             return False
 
         print("INFO: Available stream resolutions are: " + ", ".join(streams))
