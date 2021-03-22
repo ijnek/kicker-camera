@@ -49,7 +49,7 @@ def callback():
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("INFO: PostbackEvent handle called")
-    twitch_user = event.message.text
+    twitch_user = event.postback.data
     message = _capture_upload_create_message(twitch_user)
     line_bot_api.reply_message(
         event.reply_token,
