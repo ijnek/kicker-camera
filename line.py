@@ -57,7 +57,7 @@ def handle_message(event):
 
 def make_button_template(filename, link):
     message_template = TemplateSendMessage(
-        alt_text="動画",
+        alt_text="動画が準備できました！",
         template=ButtonsTemplate(
             text=filename,
             title="動画が準備できました！",
