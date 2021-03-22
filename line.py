@@ -10,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, PostbackEvent, TextMessage, TextSendMessage,
     TemplateSendMessage, ButtonsTemplate, URIAction
 )
 
@@ -44,6 +44,12 @@ def callback():
         abort(400)
 
     return 'OK'
+
+
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    print("POSTBACK CALLED!")
+    print("Data is: " + event.postback.data)
 
 
 @handler.add(MessageEvent, message=TextMessage)
