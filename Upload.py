@@ -4,72 +4,85 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from apiclient.http import MediaFileUpload,MediaIoBaseDownload
+from apiclient.http import MediaFileUpload
+from apiclient import errors
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
+
 class Upload:
 
-    service = None
+    _service = None
+
+    def upload(self, name):
+        file_name = self._uploadFile(name)
+        self._updatePermissions(file_name)
+        link = self._getWebViewLink(file_name)
+        return link
 
     def __init__(self):
-        creds = None
-        # The file token.json stores the user's access and refresh tokens, and is
-        # created automatically when the authorization flow completes for the first
-        # time.
+        credentials = None
+        # The file token.json stores the user's access and refresh
+        # tokens, and is created automatically when the authorization flow
+        # completes for the first time.
         if os.path.exists('token.json'):
-            creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+            credentials = Credentials.from_authorized_user_file(
+                'token.json', SCOPES)
         # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
+        if not credentials or not credentials.valid:
+            if credentials and credentials.expired and \
+                    credentials.refresh_token:
+                credentials.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'credentials.json', SCOPES)
-                creds = flow.run_local_server(port=0)
+                credentials = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('token.json', 'w') as token:
-                token.write(creds.to_json())
+                token.write(credentials.to_json())
 
-        self.service = build('drive', 'v3', credentials=creds)
+        self._service = build('drive', 'v3', credentials=credentials)
 
-    def upload(self, name):
-        file = self.uploadFile(name)
-        print("Uploaded to Google Drive. File ID: " + file.get('id'))
-
-        self.updatePermissions(file.get('id'))
-        print("Updated permissions for anyone to see content.")
-
-        link = self.getWebViewLink(file.get('id'))
-        print("Obtained shareable link: " + link)
-
-        return link
-
-    def uploadFile(self, name):
+    def _uploadFile(self, name):
         # https://developers.google.com/drive/api/v3/manage-uploads#python
+
+        print("INFO: Uploading " + name + " to Google Drive")
         file_metadata = {'name': name}
         media = MediaFileUpload(name, mimetype='video/mp4')
-        file = self.service.files().create(body=file_metadata,
+        file = self._service.files().create(body=file_metadata,
                                             media_body=media,
                                             fields='id').execute()
-        return file
+        file_name = file.get('id')
+        print("INFO: Successfully uploaded to Google Drive, file id is: " +
+              file_name)
+        return file_name
 
-    def updatePermissions(self, file_id):
+    def _updatePermissions(self, file_id):
+        print("INFO: Updating google drive file permissions so anyone " +
+              "can view the file")
         try:
             permission = {
                 "role": "reader",
                 "type": "anyone",
             }
-            return self.service.permissions().create(fileId=file_id, body=permission).execute()
+            self._service.permissions() \
+                .create(fileId=file_id, body=permission).execute()
+            print("INFO: Successfully updated google drive file permissions")
         except errors.HttpError as error:
-            print('An error occurred:', error)
-        return None
+            print('ERROR: Failed updating google drive file permissions.\n'
+                  + error)
+            return False
+        return True
 
-    def getWebViewLink(self, file_id):
+    def _getWebViewLink(self, file_id):
         field = 'webViewLink'
-        response = self.service.files().get(fileId=file_id, fields=field).execute()
-        return response.get(field)
+        response = self._service.files().get(fileId=file_id, fields=field) \
+            .execute()
+        link = response.get(field)
+        print("INFO: Obtained web view link: " + link)
+        return link
+
 
 if __name__ == "__main__":
     link = Upload().upload("output.mp4")

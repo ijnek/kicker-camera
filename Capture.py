@@ -3,49 +3,85 @@ import cv2
 from datetime import datetime
 
 num_frames = 150
+twitch_prefix = 'twitch.tv/'
+
 
 class Capture:
 
+    _cap = None
+    _file_name = None
+
     def record(self, twitch_user):
-        streams = streamlink.streams('twitch.tv/' + twitch_user)
+        successful = self._start_stream_capture(twitch_user)
+        if not successful:
+            return False
+
+        self._initialise_file_name()
+
+        successful = self._record_to_file()
+
+        self._close_stream_capture()
+        return successful
+
+    def get_file_name(self):
+        return self._file_name
+
+    def _start_stream_capture(self, twitch_user):
+        stream_name = twitch_prefix + twitch_user
+
+        print("INFO: Attempting to connect to: " + stream_name)
+        streams = streamlink.streams(stream_name)
 
         if not streams:
-            print("Stream not found/active")
-            return None
+            print("ERROR: Stream not found/active")
+            return False
+
+        print("INFO: Available stream resolutions are: " + ", ".join(streams))
 
         url = streams['best'].url
-        cap = cv2.VideoCapture(url)
+        print("INFO: Selected streams resolution 'best'")
 
+        print("INFO: Starting Video Capture")
+        self._cap = cv2.VideoCapture(url)
+
+        return True
+
+    def _initialise_file_name(self):
         now = datetime.now()
-        current_time = now.strftime("%H時%M分%S秒")
-        name = "動画" + current_time + '.mp4'
+        self._file_name = "動画" + now.strftime("%H時%M分%S秒") + '.mp4'
+        print("INFO: File name is: " + self._file_name)
 
-        width = int(cap.get(3))
-        height = int(cap.get(4))
+    def _record_to_file(self):
+        width = int(self._cap.get(3))
+        height = int(self._cap.get(4))
 
         fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-        out = cv2.VideoWriter(name, fmt, 20.0, (width, height))
+        out = cv2.VideoWriter(self._file_name, fmt, 20.0, (width, height))
 
+        print("INFO: Recording " + str(num_frames) + " frames. " +
+              "This might take long.")
         for _ in range(num_frames):
-            succ, frame = cap.read()
-            if succ:
-                # cv2.imshow("Capturing",frame)
+            successful, frame = self._cap.read()
+            if successful:
                 out.write(frame)
-
             else:
-                break
+                out.release()
+                print("ERROR: Failed to read frame from stream capture")
+                return False
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        cap.release()
         out.release()
 
-        print("Saving file to: " + name)
+        print("INFO: Successfully finished recording")
+        return True
 
-        return name
+    def _close_stream_capture(self):
+        self._cap.release()
+
 
 if __name__ == "__main__":
-    filename = Capture().record('kenjibrameld')
-    if filename:
-        print("Recorded file: " + filename)
+    capture = Capture()
+    successful = capture.record('insomniac')
+    if successful:
+        print("Recorded file: " + capture.get_file_name())
+    else:
+        print("Failed to record stream to file")

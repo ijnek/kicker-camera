@@ -48,21 +48,12 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    filename = Capture().record('kenjibrameld')
+    twitch_user = event.message.text
+    message = _capture_upload_create_message(twitch_user)
+    line_bot_api.reply_message(
+        event.reply_token,
+        message)
 
-    if filename:
-        link = Upload().upload(filename)
-        messages = make_button_template(filename, link)
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            messages
-        )
-    else:
-        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
-        line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=text))
 
 def make_button_template(filename, link):
     message_template = TemplateSendMessage(
@@ -80,3 +71,21 @@ def make_button_template(filename, link):
         )
     )
     return message_template
+
+
+def _capture_upload_create_message(twitch_user):
+    print("INFO: Twitch User sent in user message: " + twitch_user)
+    capture = Capture()
+    successful = capture.record(twitch_user)
+    if successful:
+        filename = capture.get_file_name()
+        link = Upload().upload(filename)
+        return make_button_template(filename, link)
+    else:
+        print("INFO: Notifying stream recording failure to line user.")
+        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
+        return TextSendMessage(text=text)
+
+
+if __name__ == "__main__":
+    _capture_upload_create_message("insomniac")
