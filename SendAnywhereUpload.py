@@ -24,20 +24,21 @@ class Upload:
                           json=params,
                           cookies=cookies).json()
 
-        weblink = r.get('weblink')
+        upload_link = r.get('weblink')
         key = r.get('key')
-        print('INFO: Upload link is: ' + weblink)
+        print('INFO: Upload link is: ' + upload_link)
         print('INFO: SendAnywhere key is: ' + key)
 
         threading.Thread(
-            target=self._p2p_transfer, args=(name, weblink)).start()
-
-        print("here")
+            target=self._p2p_transfer, args=(name, upload_link)).start()
 
         r = requests.get('https://send-anywhere.com/web/v1/key/' + key,
                          cookies=cookies).json()
 
-        return r.get('weblink')
+        download_link = r.get('weblink')
+        print('INFO: Download link is: ' + download_link)
+
+        return download_link
 
     def _p2p_transfer(self, name, weblink):
         print("INFO: Started P2P transfer. Waiting for receiver.")
