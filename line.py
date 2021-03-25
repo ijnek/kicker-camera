@@ -91,7 +91,7 @@ def _capture_upload_create_message(twitch_user):
     successful = capture.record(twitch_user)
     if successful:
         filename = capture.get_file_name()
-        link = Upload().upload(filename)
+        link = Upload().upload(filename) + "&openExternalBrowser=1"
         return make_button_template(filename, link)
     else:
         print("INFO: Notifying stream recording failure to line user.")
