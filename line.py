@@ -11,7 +11,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, PostbackEvent, TextMessage, TextSendMessage,
-    TemplateSendMessage, ButtonsTemplate, URIAction
+    VideoSendMessage, TemplateSendMessage, ButtonsTemplate, URIAction
 )
 
 from Capture import Capture
@@ -92,7 +92,9 @@ def _capture_upload_create_message(twitch_user):
     if successful:
         filename = capture.get_file_name()
         link = Upload().upload(filename)
-        return make_button_template(filename, link)
+        # return make_button_template(filename, link)
+
+        return VideoSendMessage(link, 'https://www.destructoid.com//ul/473199-AAF2.jpg')
     else:
         print("INFO: Notifying stream recording failure to line user.")
         text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
