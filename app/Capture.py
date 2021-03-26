@@ -1,8 +1,9 @@
 import streamlink
 import cv2
 from datetime import datetime
+import time
 
-num_frames = 150
+capture_seconds = 60.0  # seconds
 twitch_prefix = 'twitch.tv/'
 
 
@@ -69,9 +70,11 @@ class Capture:
         fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
         out = cv2.VideoWriter(self._file_name, fmt, 20.0, (width, height))
 
-        print("INFO: Recording " + str(num_frames) + " frames. " +
+        print("INFO: Recording " + str(capture_seconds) + " seconds. " +
               "This might take long.")
-        for _ in range(num_frames):
+
+        start_time = time.time()
+        while time.time() - start_time < capture_seconds:
             successful, frame = self._cap.read()
             if successful:
                 out.write(frame)
