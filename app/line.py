@@ -116,4 +116,4 @@ def capture_upload_push_message(twitch_user, user_id):
 
 
 if __name__ == "__main__":
-    capture_upload_push_message("insomniac")
+    capture_upload_create_message("insomniac")
