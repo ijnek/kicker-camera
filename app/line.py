@@ -1,5 +1,6 @@
 
 import yaml
+import threading
 
 from flask import Flask, request, abort
 
@@ -27,6 +28,7 @@ channel_secret = yaml_content.get('line.bot').get('channel-secret')
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -53,9 +55,11 @@ def handle_postback(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage("録画を開始します"))
+
     twitch_user = event.postback.data
-    message = _capture_upload_create_message(twitch_user)
-    line_bot_api.push_message(user_id, message)
+    threading.Thread(
+        target=capture_upload_push_message,
+        args=(twitch_user, user_id)).start()
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -65,9 +69,11 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage("録画スタートのリクエストを受けました"))
+
     twitch_user = event.message.text
-    message = _capture_upload_create_message(twitch_user)
-    line_bot_api.push_message(user_id, message)
+    threading.Thread(
+        target=capture_upload_push_message,
+        args=(twitch_user, user_id)).start()
 
 
 def make_button_template(link):
@@ -89,10 +95,11 @@ def make_button_template(link):
     return message_template
 
 
-def _capture_upload_create_message(twitch_user):
+def capture_upload_create_message(twitch_user):
     print("INFO: Twitch User sent in user message: " + twitch_user)
     capture = Capture()
     successful = capture.record(twitch_user)
+
     if successful:
         filename = capture.get_file_name()
         link = Upload().upload(filename) + "&openExternalBrowser=1"
@@ -103,5 +110,10 @@ def _capture_upload_create_message(twitch_user):
         return TextSendMessage(text=text)
 
 
+def capture_upload_push_message(twitch_user, user_id):
+    message = capture_upload_create_message(twitch_user)
+    line_bot_api.push_message(user_id, message)
+
+
 if __name__ == "__main__":
-    _capture_upload_create_message("insomniac")
+    capture_upload_push_message("insomniac")
