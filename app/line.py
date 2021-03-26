@@ -15,7 +15,6 @@ from linebot.models import (
 )
 
 from Capture import Capture
-# from DriveUpload import Upload
 from SendAnywhereUpload import Upload
 
 app = Flask(__name__)
