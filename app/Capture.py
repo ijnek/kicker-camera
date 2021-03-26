@@ -68,7 +68,7 @@ class Capture:
         height = int(self._cap.get(4))
 
         fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-        out = cv2.VideoWriter(self._file_name, fmt, 20.0, (width, height))
+        out = cv2.VideoWriter(self._file_name, fmt, 25.0, (width, height))
 
         print("INFO: Recording " + str(capture_seconds) + " seconds. " +
               "This might take long.")
