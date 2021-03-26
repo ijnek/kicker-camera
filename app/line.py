@@ -48,29 +48,26 @@ def callback():
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    print(str(event.source))
-    print("event.source.user_id: " + event.source.user_id)
-    print("INFO: Handle for PostbackEvent called from userId " + event.source.user_id)
+    user_id = event.source.user_id
+    print("INFO: Handle for PostbackEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage("録画スタートのリクエストを受けました"))
     twitch_user = event.postback.data
     message = _capture_upload_create_message(twitch_user)
-    line_bot_api.push_message(event.source.userId, message)
+    line_bot_api.push_message(user_id, message)
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print(str(event.source))
-    print("event.source.user_id: " + event.source.user_id)
-    print("INFO: Handle for MessageEvent called from userId " + event.source.user_id)
-    print(event.source.userId)
+    user_id = event.source.user_id
+    print("INFO: Handle for MessageEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage("録画スタートのリクエストを受けました"))
     twitch_user = event.message.text
     message = _capture_upload_create_message(twitch_user)
-    line_bot_api.push_message(event.source.userId, message)
+    line_bot_api.push_message(user_id, message)
 
 
 def make_button_template(link):
