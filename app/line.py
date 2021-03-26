@@ -66,17 +66,18 @@ def handle_message(event):
         message)
 
 
-def make_button_template(filename, link):
+def make_button_template(link):
     message_template = TemplateSendMessage(
-        alt_text="動画が準備できました！",
+        alt_text="10分以内にダウンロードしてください",
         template=ButtonsTemplate(
-            text=filename,
+            text="動画は一度しかダウンロード出来ません。" + 
+                 "10分後にリンクが無効になります、即座にダウンロードをしてください。",
             title="動画が準備できました！",
             image_size="cover",
             actions=[
                 URIAction(
                     uri=link,
-                    label="動画を見る"
+                    label="動画をダウンロード"
                 )
             ]
         )
@@ -91,7 +92,7 @@ def _capture_upload_create_message(twitch_user):
     if successful:
         filename = capture.get_file_name()
         link = Upload().upload(filename) + "&openExternalBrowser=1"
-        return make_button_template(filename, link)
+        return make_button_template(link)
     else:
         print("INFO: Notifying stream recording failure to line user.")
         text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"

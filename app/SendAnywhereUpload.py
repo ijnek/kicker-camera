@@ -43,8 +43,9 @@ class Upload:
         print("INFO: Started P2P transfer. Waiting for receiver.")
         video_file = open(name, 'rb')
         x = requests.post(weblink, files={'file': video_file})
+        print(x)
         print(x.json())
-        print("INFO: P2P transfer complete! Video successfully transfered.")
+        print("INFO: P2P transfer complete! Video successfully transferred.")
 
 
 if __name__ == "__main__":
