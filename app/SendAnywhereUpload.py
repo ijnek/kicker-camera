@@ -9,7 +9,7 @@ class Upload:
 
     def upload(self, name):
         r = requests.get('https://send-anywhere.com/web/v1/device',
-                         params={'profile_name': 'testlinebotpython',
+                         params={'profile_name': 'kicker_camera',
                                  'api_key': YOUR_API_KEY})
 
         device_key = r.json().get('device_key')
@@ -45,28 +45,6 @@ class Upload:
         x = requests.post(weblink, files={'file': video_file})
         print(x.json())
         print("INFO: P2P transfer complete! Video successfully transfered.")
-
-    # # Working download function
-    # def download(self, key):
-
-    #     r = requests.get('https://send-anywhere.com/web/v1/device',
-    #                      params={'profile_name': 'testlinebotpython', 'api_key': YOUR_API_KEY})
-
-    #     device_key = r.json().get('device_key')
-    #     cookies = {'device_key': device_key}
-
-    #     r = requests.get('https://send-anywhere.com/web/v1/key/' + key, cookies=cookies)
-    #     print(r.url)
-    #     print(r.text)
-
-    #     download_url = r.json().get('weblink')
-    #     print("download_url: " + str(download_url))
-
-    #     download_file_name = key + '_downloaded.mp4'  # WE DONT KNOW THE EXTENSION OF THE FILE!!
-    #     response = urllib.request.urlretrieve(download_url, download_file_name)
-    #     print(response[1].get_content_type())
-
-    #     print("Saved to " + download_file_name)
 
 
 if __name__ == "__main__":
