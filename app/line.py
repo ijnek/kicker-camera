@@ -52,7 +52,7 @@ def handle_postback(event):
     print("INFO: Handle for PostbackEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage("録画スタートのリクエストを受けました"))
+        TextSendMessage("録画を開始します"))
     twitch_user = event.postback.data
     message = _capture_upload_create_message(twitch_user)
     line_bot_api.push_message(user_id, message)
