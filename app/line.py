@@ -70,8 +70,8 @@ def make_button_template(link):
     message_template = TemplateSendMessage(
         alt_text="10分以内にダウンロードしてください",
         template=ButtonsTemplate(
-            text="動画は一度しかダウンロード出来ません。" + 
-                 "10分後にリンクが無効になります、即座にダウンロードをしてください。",
+            text="10分でリンクが無効になります、すぐにダウンロードしてください。" +
+                 "一度しかダウンロード出来ません。",
             title="動画が準備できました！",
             image_size="cover",
             actions=[
