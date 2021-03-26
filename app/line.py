@@ -66,7 +66,7 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage("録画スタートのリクエストを受けました"))
     twitch_user = event.message.text
-    print("event.source: " + event.source)
+    print("event.source.user_id: " + event.source.user_id)
     message = _capture_upload_create_message(twitch_user)
     line_bot_api.push_message(event.source.userId, message)
 
