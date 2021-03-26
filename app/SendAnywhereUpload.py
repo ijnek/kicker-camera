@@ -43,9 +43,12 @@ class Upload:
         print("INFO: Started P2P transfer. Waiting for receiver.")
         video_file = open(name, 'rb')
         x = requests.post(weblink, files={'file': video_file})
-        print(x)
-        print(x.json())
-        print("INFO: P2P transfer complete! Video successfully transferred.")
+
+        if x.status_code == 200:
+            print("INFO: P2P transfer complete! Video successfully transferred.")
+        else:
+            print("ERROR: P2P transfer failed. This may be due to the 10 minute limit for SendAnywhere.")
+        os.remove(name)
 
 
 if __name__ == "__main__":
