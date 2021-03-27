@@ -68,7 +68,7 @@ def handle_message(event):
     print("INFO: Handle for MessageEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage("録画スタートのリクエストを受けました"))
+        TextSendMessage("録画を開始します"))
 
     twitch_user = event.message.text
     threading.Thread(
