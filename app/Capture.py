@@ -3,7 +3,7 @@ import cv2
 from datetime import datetime
 import time
 
-capture_seconds = 60.0  # seconds
+capture_seconds = 30.0  # seconds
 twitch_prefix = 'twitch.tv/'
 
 
