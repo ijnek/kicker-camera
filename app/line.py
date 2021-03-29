@@ -54,7 +54,7 @@ def handle_postback(event):
     print("INFO: Handle for PostbackEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage("録画を開始します"))
+        TextSendMessage("30秒の録画を開始します、どうぞ滑ってください！約1分後にダウンロードリンクが送られます。"))
 
     twitch_user = event.postback.data
     threading.Thread(
@@ -68,7 +68,7 @@ def handle_message(event):
     print("INFO: Handle for MessageEvent called from user_id " + user_id)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage("録画を開始します"))
+        TextSendMessage("30秒の録画を開始します、どうぞ滑ってください！約1分後にダウンロードリンクが送られます。"))
 
     twitch_user = event.message.text
     threading.Thread(
