@@ -5,6 +5,9 @@ import time
 
 capture_seconds = 30.0  # seconds
 twitch_prefix = 'twitch.tv/'
+delay_seconds = 10.0  # seconds
+fps = 30.0
+time_per_frame = 1.0 / fps
 
 
 class Capture:
@@ -19,6 +22,7 @@ class Capture:
 
         self._initialise_file_name()
 
+        self._delay()
         successful = self._record_to_file()
 
         self._close_stream_capture()
@@ -63,21 +67,34 @@ class Capture:
         self._file_name = "動画" + now.strftime("%H時%M分%S秒") + '.mp4'
         print("INFO: File name is: " + self._file_name)
 
+    def _delay(self):
+        # Delay recording purposely to handle the twitch stream lag
+        print("INFO: Purposely delaying to handle stream delay")
+        time.sleep(delay_seconds)
+
     def _record_to_file(self):
         width = int(self._cap.get(3))
         height = int(self._cap.get(4))
 
         fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-        out = cv2.VideoWriter(self._file_name, fmt, 25.0, (width, height))
+        out = cv2.VideoWriter(self._file_name, fmt, fps, (width, height))
 
         print("INFO: Recording " + str(capture_seconds) + " seconds. " +
               "This might take long.")
 
         start_time = time.time()
         while time.time() - start_time < capture_seconds:
+
+            time_before = time.time()
+
             successful, frame = self._cap.read()
             if successful:
                 out.write(frame)
+
+                # delay to match fps
+                time_now = time.time()
+                sleep_time = max(time_per_frame - (time_now - time_before), 0)
+                time.sleep(sleep_time)
             else:
                 out.release()
                 print("ERROR: Failed to read frame from stream capture")
