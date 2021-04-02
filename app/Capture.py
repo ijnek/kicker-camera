@@ -5,7 +5,7 @@ import time
 
 capture_seconds = 30.0  # seconds
 twitch_prefix = 'twitch.tv/'
-delay_seconds = 10.0  # seconds
+delay_seconds = 18.0  # seconds
 fps = 30.0
 time_per_frame = 1.0 / fps
 
