@@ -1,0 +1,5 @@
+resources/record_button.png filter=lfs diff=lfs merge=lfs -text
+resources/screenshots.png filter=lfs diff=lfs merge=lfs -text
+resources/kicker_camera.gif filter=lfs diff=lfs merge=lfs -text
+resources/record_button.psd filter=lfs diff=lfs merge=lfs -text
+resources/screenshots.psd filter=lfs diff=lfs merge=lfs -text
