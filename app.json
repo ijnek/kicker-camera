@@ -5,11 +5,11 @@
     "keywords": ["line"],
     "env": {
         "LINE_BOT_CHANNEL_TOKEN": {
-            "description": "LINE bot Channel access token from the Channel Console",
+            "description": "LINE チャンネルアクセストークン",
             "required":  true
         },
         "LINE_BOT_CHANNEL_SECRET": {
-            "description": "LINE bot Channel secret from the Channel Console",
+            "description": "LINE チャンネルシークレット",
             "required":  true
         }
     }
