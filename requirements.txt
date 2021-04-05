@@ -2,7 +2,6 @@ line-bot-sdk
 streamlink
 opencv-python
 Flask
-pyyaml
 argparse
 google-api-python-client
 google-auth-httplib2

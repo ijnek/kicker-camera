@@ -1,6 +1,6 @@
 
-import yaml
 import threading
+import os
 
 from flask import Flask, request, abort
 
@@ -20,11 +20,8 @@ from SendAnywhereUpload import Upload
 
 app = Flask(__name__)
 
-yaml_file = open("application.yml", 'r')
-yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
-
-channel_access_token = yaml_content.get('line.bot').get('channel-token')
-channel_secret = yaml_content.get('line.bot').get('channel-secret')
+channel_access_token = os.environ['LINE_BOT_CHANNEL_TOKEN']
+channel_secret = os.environ['LINE_BOT_CHANNEL_SECRET']
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
