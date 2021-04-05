@@ -1,8 +1,7 @@
 {
     "name": "KickerCamera",
-    "description": "This is a deployment of a KickerCamera",
     "repository": "https://github.com/ijnek/kicker-camera",
-    "keywords": ["line"],
+    "keywords": ["line", "twitch"],
     "env": {
         "LINE_BOT_CHANNEL_TOKEN": {
             "description": "LINE チャンネルアクセストークン",
@@ -11,6 +10,10 @@
         "LINE_BOT_CHANNEL_SECRET": {
             "description": "LINE チャンネルシークレット",
             "required":  true
+        },
+        "TWITCH_USERNAME": {
+            "description": "Twitch のユーザーネーム",
+            "required": true
         }
     }
 }
