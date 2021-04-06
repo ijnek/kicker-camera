@@ -2,12 +2,14 @@ import streamlink
 import cv2
 from datetime import datetime
 import time
+import os
 
-capture_seconds = 60.0  # seconds
 twitch_prefix = 'twitch.tv/'
-delay_seconds = 18.0  # seconds
 fps = 30.0
 time_per_frame = 1.0 / fps
+
+capture_seconds = os.getenv('CAPTURE_SECONDS', 60.0)
+delay_seconds = os.getenv('DELAY_SECONDS', 18.0)
 
 
 class Capture:
