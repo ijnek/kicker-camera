@@ -13,6 +13,8 @@ capture_seconds = os.getenv('CAPTURE_SECONDS', 60)
 
 def create_rich_menu():
 
+    print("INFO: Creating rich menu")
+
     line_bot_api = LineBotApi(channel_access_token)
 
     display_text = str(capture_seconds) + "秒の録画が始まりました！\nスマホをしまっても大丈夫です"
@@ -33,6 +35,8 @@ def create_rich_menu():
         line_bot_api.set_rich_menu_image(rich_menu_id, 'image/png', f)
 
     line_bot_api.set_default_rich_menu(rich_menu_id)
+
+    print("INFO: Finished creating rich menu")
 
 
 if __name__ == "__main__":
