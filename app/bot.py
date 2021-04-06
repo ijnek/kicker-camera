@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 import line
-from line_create_rich_menu import create_rich_menu
 from argparse import ArgumentParser
-
-create_rich_menu()
 
 arg_parser = ArgumentParser(
     usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'

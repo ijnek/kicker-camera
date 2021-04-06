@@ -17,11 +17,7 @@ def create_rich_menu():
 
     line_bot_api = LineBotApi(channel_access_token)
 
-    print("1")
-
     display_text = str(capture_seconds) + "秒の録画が始まりました！\nスマホをしまっても大丈夫です"
-
-    print("2")
 
     rich_menu_to_create = RichMenu(
         size=RichMenuSize(width=2500, height=1204),
@@ -34,16 +30,10 @@ def create_rich_menu():
                                   display_text=display_text))]
     )
 
-    print("3")
-
     rich_menu_id = line_bot_api.create_rich_menu(rich_menu=rich_menu_to_create)
-
-    print("4")
 
     with open("resources/record_button.png", 'rb') as f:
         line_bot_api.set_rich_menu_image(rich_menu_id, 'image/png', f)
-
-    print("5")
 
     line_bot_api.set_default_rich_menu(rich_menu_id)
 
