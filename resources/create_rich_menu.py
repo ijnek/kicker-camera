@@ -9,11 +9,11 @@ twitch_username = os.environ['TWITCH_USERNAME']
 
 line_bot_api = LineBotApi(channel_access_token)
 
-display_text = "録画始まりました、どうぞ滑ってください！"
+display_text = "1分の録画が始まりました！\nスマホをしまっても大丈夫です"
 
 rich_menu_to_create = RichMenu(
-    size=RichMenuSize(width=2500, height=1162),
-    selected=False,
+    size=RichMenuSize(width=2500, height=1204),
+    selected=True,
     name="Nice richmenu",
     chat_bar_text="録画ボタン",
     areas=[RichMenuArea(
