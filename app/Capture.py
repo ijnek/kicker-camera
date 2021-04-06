@@ -8,8 +8,8 @@ twitch_prefix = 'twitch.tv/'
 fps = 30.0
 time_per_frame = 1.0 / fps
 
-capture_seconds = os.getenv('CAPTURE_SECONDS', 60.0)
-delay_seconds = os.getenv('DELAY_SECONDS', 18.0)
+capture_seconds = int(os.getenv('CAPTURE_SECONDS', 60))
+delay_seconds = int(os.getenv('DELAY_SECONDS', 18))
 
 
 class Capture:
@@ -66,7 +66,7 @@ class Capture:
 
     def _initialise_file_name(self):
         now = datetime.now()
-        self._file_name = "動画" + now.strftime("%H時%M分%S秒") + '.mp4'
+        self._file_name = "キッカーカメラ_" + now.strftime("%H%M%S") + '.mp4'
         print("INFO: File name is: " + self._file_name)
 
     def _delay(self):
