@@ -6,10 +6,11 @@ from linebot import LineBotApi
 channel_access_token = os.environ['LINE_BOT_CHANNEL_TOKEN']
 channel_secret = os.environ['LINE_BOT_CHANNEL_SECRET']
 twitch_username = os.environ['TWITCH_USERNAME']
+capture_seconds = os.getenv('CAPTURE_SECONDS', 60)
 
 line_bot_api = LineBotApi(channel_access_token)
 
-display_text = "1分の録画が始まりました！\nスマホをしまっても大丈夫です"
+display_text = str(capture_seconds) + "秒の録画が始まりました！\nスマホをしまっても大丈夫です"
 
 rich_menu_to_create = RichMenu(
     size=RichMenuSize(width=2500, height=1204),
