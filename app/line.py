@@ -49,9 +49,6 @@ def callback():
 def handle_postback(event):
     user_id = event.source.user_id
     print("INFO: Handle for PostbackEvent called from user_id " + user_id)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage("30秒の録画を開始します、どうぞ滑ってください！約1分後にダウンロードリンクが送られます。"))
 
     twitch_user = event.postback.data
     threading.Thread(
@@ -63,9 +60,6 @@ def handle_postback(event):
 def handle_message(event):
     user_id = event.source.user_id
     print("INFO: Handle for MessageEvent called from user_id " + user_id)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage("30秒の録画を開始します、どうぞ滑ってください！約1分後にダウンロードリンクが送られます。"))
 
     twitch_user = event.message.text
     threading.Thread(
@@ -75,16 +69,15 @@ def handle_message(event):
 
 def make_button_template(link):
     message_template = TemplateSendMessage(
-        alt_text="10分以内にダウンロードしてください",
+        alt_text="動画が届きました！",
         template=ButtonsTemplate(
-            text="10分でリンクが無効になります、すぐにダウンロードしてください。" +
-                 "一度しかダウンロード出来ません。",
-            title="動画が準備できました！",
+            text="リンクは一度かぎり有効で、10分で無効になります。",
+            title="「ダウンロード」を選択してください",
             image_size="cover",
             actions=[
                 URIAction(
                     uri=link,
-                    label="動画をダウンロード"
+                    label="動画を見る"
                 )
             ]
         )
@@ -103,7 +96,7 @@ def capture_upload_create_message(twitch_user):
         return make_button_template(link)
     else:
         print("INFO: Notifying stream recording failure to line user.")
-        text = "録画に失敗しました。ストリーミングが見つかりませんでした。後でリトライしてください。"
+        text = "録画に失敗しました。カメラを検出出来ません。後でリトライしてください。"
         return TextSendMessage(text=text)
 
 
