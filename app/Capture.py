@@ -118,7 +118,7 @@ class Capture:
         print("INFO: Compressing video, this may take long.")
 
         compressed_file_name = 'compressed_' + self._file_name
-        subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 -preset faster ' + compressed_file_name).split(),
+        subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 -preset ultrafast ' + compressed_file_name).split(),
                        stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
         subprocess.run(['mv', compressed_file_name, self._file_name])
