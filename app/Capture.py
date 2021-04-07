@@ -119,7 +119,7 @@ class Capture:
 
         compressed_file_name = 'compressed_' + self._file_name
         subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 -preset ultrafast ' + compressed_file_name).split(),
-                       stdout=subprocess.DEVNULL,
+                       stdout=subprocess.STDOUT,
                        stderr=subprocess.STDOUT)
         subprocess.run(['mv', compressed_file_name, self._file_name])
         print("INFO: Finished compressing video")
