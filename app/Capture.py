@@ -3,7 +3,6 @@ import cv2
 from datetime import datetime
 import time
 import os
-import subprocess
 
 twitch_prefix = 'twitch.tv/'
 fps = 30.0
@@ -27,9 +26,6 @@ class Capture:
 
         self._delay()
         successful = self._record_to_file()
-
-        if successful:
-            self._compress()
 
         self._close_stream_capture()
         return successful
@@ -113,16 +109,6 @@ class Capture:
 
     def _close_stream_capture(self):
         self._cap.release()
-
-    def _compress(self):
-        print("INFO: Compressing video, this may take long.")
-
-        compressed_file_name = 'compressed_' + self._file_name
-        subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 -preset ultrafast ' + compressed_file_name).split(),
-                       stdout=subprocess.DEVNULL,
-                       stderr=subprocess.STDOUT)
-        subprocess.run(['mv', compressed_file_name, self._file_name])
-        print("INFO: Finished compressing video")
 
 
 if __name__ == "__main__":
