@@ -75,7 +75,8 @@ class Capture:
 
     def _delay(self):
         # Delay recording purposely to handle the twitch stream lag
-        print("INFO: Purposely delaying to handle stream delay")
+        print("INFO: Purposely delaying " + str(delay_seconds) +
+              " seconds to handle stream delay")
         time.sleep(delay_seconds)
 
     def _record_to_file(self):
@@ -114,12 +115,11 @@ class Capture:
         self._cap.release()
 
     def _compress(self):
-        print("INFO: Compressing video")
+        print("INFO: Compressing video, this may take long.")
 
-        FNULL = open(os.devnull, 'w')
         compressed_file_name = 'compressed_' + self._file_name
-        subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 ' + compressed_file_name).split(),
-                       stdout=FNULL, 
+        subprocess.run(('ffmpeg -i ' + self._file_name + ' -vcodec libx265 -crf 28 -preset ultrafast' + compressed_file_name).split(),
+                       stdout=subprocess.DEVNULL,
                        stderr=subprocess.STDOUT)
         subprocess.run(['mv', compressed_file_name, self._file_name])
         print("INFO: Finished compressing video")
