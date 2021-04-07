@@ -17,7 +17,7 @@ def create_rich_menu():
 
     line_bot_api = LineBotApi(channel_access_token)
 
-    display_text = str(capture_seconds) + "秒の録画が始まりました！\nスマホをしまっても大丈夫です"
+    display_text = str(capture_seconds) + "秒の録画が始まりました！\nスマホをしまっても大丈夫です。\n2分程たったら動画が届きます。"
 
     rich_menu_to_create = RichMenu(
         size=RichMenuSize(width=2500, height=1204),
