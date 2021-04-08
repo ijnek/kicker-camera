@@ -3,4 +3,3 @@ streamlink
 opencv-python
 Flask
 argparse
-guppy3

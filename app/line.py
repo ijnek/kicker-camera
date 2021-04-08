@@ -17,7 +17,7 @@ from linebot.models import (
 
 from Capture import Capture
 from SendAnywhereUpload import Upload
-from guppy import hpy
+
 
 app = Flask(__name__)
 
@@ -56,13 +56,6 @@ def handle_postback(event):
         target=capture_upload_push_message,
         args=(twitch_user, user_id)).start()
 
-    h = hpy()
-    print(h.heap())
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.postback.data))
-
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -73,13 +66,6 @@ def handle_message(event):
     threading.Thread(
         target=capture_upload_push_message,
         args=(twitch_user, user_id)).start()
-
-    h = hpy()
-    print(h.heap())
-
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
 
 
 def make_button_template(link):
