@@ -41,8 +41,7 @@ class Upload:
 
     def _p2p_transfer(self, name, weblink):
         print("INFO: Started P2P transfer. Waiting for receiver.")
-        video_file = open(name, 'rb')
-        x = requests.post(weblink, files={'file': video_file})
+        x = requests.post(weblink, files={'file': open(name, 'rb')})
 
         if x.status_code == 200:
             print("INFO: P2P transfer complete! Video successfully transferred.")
