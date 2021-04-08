@@ -65,8 +65,8 @@ class Capture:
         return True
 
     def _initialise_file_name(self):
-        now = datetime.now()
-        self._file_name = "キッカーカメラ_" + now.strftime("%H%M%S") + '.mp4'
+        now = datetime.utcnow()
+        self._file_name = "キッカーカメラ_" + now.strftime("%H%M%S%f") + '.mp4'
         print("INFO: File name is: " + self._file_name)
 
     def _delay(self):
