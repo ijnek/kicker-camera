@@ -1,6 +1,9 @@
 
 import threading
 import os
+import time
+import tracemalloc
+import linecache
 
 from flask import Flask, request, abort
 
@@ -25,6 +28,8 @@ channel_access_token = os.environ['LINE_BOT_CHANNEL_TOKEN']
 channel_secret = os.environ['LINE_BOT_CHANNEL_SECRET']
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+
+tracemalloc.start()
 
 
 @app.route("/callback", methods=['POST'])
@@ -55,6 +60,9 @@ def handle_postback(event):
     threading.Thread(
         target=capture_upload_push_message,
         args=(twitch_user, user_id)).start()
+
+    snapshot = tracemalloc.take_snapshot()
+    display_top(snapshot)
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -108,5 +116,45 @@ def capture_upload_push_message(twitch_user, user_id):
     # line_bot_api.push_message(user_id, message)
 
 
+def display_top(snapshot, key_type='lineno', limit=10):
+    snapshot = snapshot.filter_traces((
+        tracemalloc.Filter(False, "<frozen importlib._bootstrap>"),
+        tracemalloc.Filter(False, "<unknown>"),
+    ))
+    top_stats = snapshot.statistics(key_type)
+
+    print("Top %s lines" % limit)
+    for index, stat in enumerate(top_stats[:limit], 1):
+        frame = stat.traceback[0]
+        print("#%s: %s:%s: %.1f KiB"
+              % (index, frame.filename, frame.lineno, stat.size / 1024))
+        line = linecache.getline(frame.filename, frame.lineno).strip()
+        if line:
+            print('    %s' % line)
+
+    other = top_stats[limit:]
+    if other:
+        size = sum(stat.size for stat in other)
+        print("%s other: %.1f KiB" % (len(other), size / 1024))
+    total = sum(stat.size for stat in top_stats)
+    print("Total allocated size: %.1f KiB" % (total / 1024))
+
+
 if __name__ == "__main__":
+
+    tracemalloc.start()
+
     capture_upload_create_message("insomniac")
+
+    for _ in range(20):
+        threading.Thread(
+            target=capture_upload_create_message,
+            args=("insomniac",)).start()
+        time.sleep(1)
+
+    time.sleep(10)
+
+    snapshot = tracemalloc.take_snapshot()
+    display_top(snapshot)
+
+    time.sleep(1000)
