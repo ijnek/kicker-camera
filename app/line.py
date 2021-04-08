@@ -51,10 +51,10 @@ def handle_postback(event):
     user_id = event.source.user_id
     print("INFO: Handle for PostbackEvent called from user_id " + user_id)
 
-    twitch_user = event.postback.data
-    threading.Thread(
-        target=capture_upload_push_message,
-        args=(twitch_user, user_id)).start()
+    # twitch_user = event.postback.data
+    # threading.Thread(
+    #     target=capture_upload_push_message,
+    #     args=(twitch_user, user_id)).start()
 
 
 @handler.add(MessageEvent, message=TextMessage)
