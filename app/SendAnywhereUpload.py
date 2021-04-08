@@ -3,6 +3,7 @@ import os
 import threading
 
 YOUR_API_KEY = 'a7a4ce2007b42d838d0e91b28c2a53d964d2706d'
+TIMEOUT = 10  # minutes
 
 
 class Upload:
@@ -41,12 +42,17 @@ class Upload:
 
     def _p2p_transfer(self, name, weblink):
         print("INFO: Started P2P transfer. Waiting for receiver.")
-        x = requests.post(weblink, files={'file': open(name, 'rb')})
-
-        if x.status_code == 200:
-            print("INFO: P2P transfer complete! Video successfully transferred.")
-        else:
-            print("ERROR: P2P transfer failed. This may be due to the 10 minute limit for SendAnywhere.")
+        
+        try:
+            x = requests.post(weblink, files={'file': open(name, 'rb')}, timeout=TIMEOUT * 60)
+            if x.status_code == 200:
+                print("INFO: P2P transfer complete! Video successfully transferred.")
+            else:
+                print("ERROR: P2P transfer failed. This may be due to the 10 minute limit for SendAnywhere.")
+        except requests.Timeout:
+            print("ERROR: P2P transfer reached timeout of " + str(TIMEOUT) + " minutes. (Timeout)")
+        except requests.ConnectionError:
+            print("ERROR: P2P transfer reached timeout of " + str(TIMEOUT) + " minutes. (ConnectionError)")
 
         if os.path.exists(name):
             os.remove(name)
