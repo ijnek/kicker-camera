@@ -27,7 +27,7 @@ class Capture:
         # self._delay()
         # successful = self._record_to_file()
 
-        # self._close_stream_capture()
+        self._close_stream_capture()
         # return successful
         return False
 
