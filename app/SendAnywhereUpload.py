@@ -29,8 +29,8 @@ class Upload:
         print('INFO: Upload link is: ' + upload_link)
         print('INFO: SendAnywhere key is: ' + key)
 
-        # threading.Thread(
-        #     target=self._p2p_transfer, args=(name, upload_link)).start()
+        threading.Thread(
+            target=self._p2p_transfer, args=(name, upload_link)).start()
 
         r = requests.get('https://send-anywhere.com/web/v1/key/' + key,
                          cookies=cookies).json()

@@ -42,16 +42,16 @@ class Capture:
             streams = streamlink.streams(stream_name)
         except streamlink.PluginError:
             print("ERROR: Streamlink PluginError. Please check that " +
-                twitch_user + " is an existing twitch username")
+                  twitch_user + " is an existing twitch username")
             return False
         except streamlink.NoPluginError:
             print("ERROR: Streamlink NoPluginError. No plugin for the URL " +
-                "was found.")
+                  "was found.")
             return False
 
         if not streams:
             print("ERROR: Stream not active. Please check that the stream " +
-                "is up.")
+                  "is up.")
             return False
 
         print("INFO: Available stream resolutions are: " + ", ".join(streams))
@@ -80,7 +80,7 @@ class Capture:
         height = int(self._cap.get(4))
 
         fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-        # out = cv2.VideoWriter(self._file_name, fmt, fps, (width, height))
+        out = cv2.VideoWriter(self._file_name, fmt, fps, (width, height))
         print("INFO: Recording " + str(capture_seconds) + " seconds. " +
               "This might take long.")
 
@@ -91,18 +91,18 @@ class Capture:
 
             successful, frame = self._cap.read()
             if successful:
-                # out.write(frame)
+                out.write(frame)
 
                 # delay to match fps
                 time_now = time.time()
                 sleep_time = max(time_per_frame - (time_now - time_before), 0)
                 time.sleep(sleep_time)
             else:
-                # out.release()
+                out.release()
                 print("ERROR: Failed to read frame from stream capture")
                 return False
 
-        # out.release()
+        out.release()
 
         print("INFO: Successfully finished recording")
         return True

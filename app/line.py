@@ -91,21 +91,19 @@ def capture_upload_create_message(twitch_user):
     capture = Capture()
     successful = capture.record(twitch_user)
 
-    return None
-
-    # if successful:
-    #     filename = capture.get_file_name()
-    #     link = Upload().upload(filename) + "&openExternalBrowser=1"
-    #     return make_button_template(link)
-    # else:
-    #     print("INFO: Notifying stream recording failure to line user.")
-    #     text = "録画に失敗しました。カメラを検出出来ません。後でリトライしてください。"
-    #     return TextSendMessage(text=text)
+    if successful:
+        filename = capture.get_file_name()
+        link = Upload().upload(filename) + "&openExternalBrowser=1"
+        return make_button_template(link)
+    else:
+        print("INFO: Notifying stream recording failure to line user.")
+        text = "録画に失敗しました。カメラを検出出来ません。後でリトライしてください。"
+        return TextSendMessage(text=text)
 
 
 def capture_upload_push_message(twitch_user, user_id):
     message = capture_upload_create_message(twitch_user)
-    # line_bot_api.push_message(user_id, message)
+    line_bot_api.push_message(user_id, message)
 
 
 if __name__ == "__main__":
