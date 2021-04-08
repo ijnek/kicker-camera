@@ -37,7 +37,7 @@ class Capture:
 
     def _start_stream_capture(self, twitch_user):
         stream_name = twitch_prefix + twitch_user
-        
+
         global stream_map
         if stream_name in stream_map:
             print("INFO: stream url found in cache")
@@ -66,7 +66,7 @@ class Capture:
             url = streams['best'].url
             print("INFO: Selected streams resolution 'best'")
 
-            stream_map[stream_name] = url
+            # stream_map[stream_name] = url
 
         print("INFO: Starting Video Capture")
         self._cap = cv2.VideoCapture(url)
