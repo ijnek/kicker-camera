@@ -48,7 +48,9 @@ class Upload:
             print("INFO: P2P transfer complete! Video successfully transferred.")
         else:
             print("ERROR: P2P transfer failed. This may be due to the 10 minute limit for SendAnywhere.")
-        os.remove(name)
+
+        if os.path.exists(name):
+            os.remove(name)
 
 
 if __name__ == "__main__":
