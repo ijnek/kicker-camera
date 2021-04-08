@@ -89,7 +89,7 @@ def make_button_template(link):
 def capture_upload_create_message(twitch_user):
     print("INFO: Twitch User sent in user message: " + twitch_user)
     capture = Capture()
-    # successful = capture.record(twitch_user)
+    successful = capture.record(twitch_user)
 
     return None
 

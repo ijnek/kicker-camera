@@ -19,16 +19,17 @@ class Capture:
 
     def record(self, twitch_user):
         successful = self._start_stream_capture(twitch_user)
-        if not successful:
-            return False
+        # if not successful:
+        #     return False
 
-        self._initialise_file_name()
+        # self._initialise_file_name()
 
-        self._delay()
-        successful = self._record_to_file()
+        # self._delay()
+        # successful = self._record_to_file()
 
-        self._close_stream_capture()
-        return successful
+        # self._close_stream_capture()
+        # return successful
+        return False
 
     def get_file_name(self):
         return self._file_name
