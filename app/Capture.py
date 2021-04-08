@@ -11,6 +11,8 @@ time_per_frame = 1.0 / fps
 capture_seconds = int(os.getenv('CAPTURE_SECONDS', 60))
 delay_seconds = int(os.getenv('DELAY_SECONDS', 18))
 
+stream_map = {}
+
 
 class Capture:
 
@@ -19,46 +21,52 @@ class Capture:
 
     def record(self, twitch_user):
         successful = self._start_stream_capture(twitch_user)
-        # if not successful:
-        #     return False
+        if not successful:
+            return False
 
-        # self._initialise_file_name()
+        self._initialise_file_name()
 
-        # self._delay()
-        # successful = self._record_to_file()
+        self._delay()
+        successful = self._record_to_file()
 
         self._close_stream_capture()
-        # return successful
-        return False
+        return successful
 
     def get_file_name(self):
         return self._file_name
 
     def _start_stream_capture(self, twitch_user):
         stream_name = twitch_prefix + twitch_user
+        
+        global stream_map
+        if stream_name in stream_map:
+            print("INFO: stream url found in cache")
+            url = stream_map[stream_name]
+        else:
+            print("INFO: Attempting to connect to: " + stream_name)
 
-        print("INFO: Attempting to connect to: " + stream_name)
+            try:
+                streams = streamlink.streams(stream_name)
+            except streamlink.PluginError:
+                print("ERROR: Streamlink PluginError. Please check that " +
+                    twitch_user + " is an existing twitch username")
+                return False
+            except streamlink.NoPluginError:
+                print("ERROR: Streamlink NoPluginError. No plugin for the URL " +
+                    "was found.")
+                return False
 
-        try:
-            streams = streamlink.streams(stream_name)
-        except streamlink.PluginError:
-            print("ERROR: Streamlink PluginError. Please check that " +
-                  twitch_user + " is an existing twitch username")
-            return False
-        except streamlink.NoPluginError:
-            print("ERROR: Streamlink NoPluginError. No plugin for the URL " +
-                  "was found.")
-            return False
+            if not streams:
+                print("ERROR: Stream not active. Please check that the stream " +
+                    "is up.")
+                return False
 
-        if not streams:
-            print("ERROR: Stream not active. Please check that the stream " +
-                  "is up.")
-            return False
+            print("INFO: Available stream resolutions are: " + ", ".join(streams))
 
-        print("INFO: Available stream resolutions are: " + ", ".join(streams))
+            url = streams['best'].url
+            print("INFO: Selected streams resolution 'best'")
 
-        url = streams['best'].url
-        print("INFO: Selected streams resolution 'best'")
+            stream_map[stream_name] = url
 
         print("INFO: Starting Video Capture")
         self._cap = cv2.VideoCapture(url)
