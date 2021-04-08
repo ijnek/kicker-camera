@@ -51,10 +51,10 @@ def handle_postback(event):
     user_id = event.source.user_id
     print("INFO: Handle for PostbackEvent called from user_id " + user_id)
 
-    # twitch_user = event.postback.data
-    # threading.Thread(
-    #     target=capture_upload_push_message,
-    #     args=(twitch_user, user_id)).start()
+    twitch_user = event.postback.data
+    threading.Thread(
+        target=capture_upload_push_message,
+        args=(twitch_user, user_id)).start()
 
 
 @handler.add(MessageEvent, message=TextMessage)
@@ -89,16 +89,18 @@ def make_button_template(link):
 def capture_upload_create_message(twitch_user):
     print("INFO: Twitch User sent in user message: " + twitch_user)
     capture = Capture()
-    successful = capture.record(twitch_user)
+    # successful = capture.record(twitch_user)
 
-    if successful:
-        filename = capture.get_file_name()
-        link = Upload().upload(filename) + "&openExternalBrowser=1"
-        return make_button_template(link)
-    else:
-        print("INFO: Notifying stream recording failure to line user.")
-        text = "録画に失敗しました。カメラを検出出来ません。後でリトライしてください。"
-        return TextSendMessage(text=text)
+    return None
+
+    # if successful:
+    #     filename = capture.get_file_name()
+    #     link = Upload().upload(filename) + "&openExternalBrowser=1"
+    #     return make_button_template(link)
+    # else:
+    #     print("INFO: Notifying stream recording failure to line user.")
+    #     text = "録画に失敗しました。カメラを検出出来ません。後でリトライしてください。"
+    #     return TextSendMessage(text=text)
 
 
 def capture_upload_push_message(twitch_user, user_id):
