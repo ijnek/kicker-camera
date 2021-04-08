@@ -103,7 +103,7 @@ def capture_upload_create_message(twitch_user):
 
 def capture_upload_push_message(twitch_user, user_id):
     message = capture_upload_create_message(twitch_user)
-    line_bot_api.push_message(user_id, message)
+    # line_bot_api.push_message(user_id, message)
 
 
 if __name__ == "__main__":
