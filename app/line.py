@@ -1,7 +1,6 @@
 
 import threading
 import os
-import gc
 
 from flask import Flask, request, abort
 
@@ -91,8 +90,6 @@ def capture_upload_create_message(twitch_user):
     print("INFO: Twitch User sent in user message: " + twitch_user)
     capture = Capture()
     successful = capture.record(twitch_user)
-
-    gc.collect()
 
     return None
 
