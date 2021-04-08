@@ -3,6 +3,4 @@ streamlink
 opencv-python
 Flask
 argparse
-google-api-python-client
-google-auth-httplib2
-google-auth-oauthlib
+guppy3
