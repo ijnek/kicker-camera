@@ -5,14 +5,12 @@ import os
 import subprocess
 
 twitch_prefix = 'twitch.tv/'
-fps = 30.0
-time_per_frame = 1.0 / fps
 
 capture_seconds = int(os.getenv('CAPTURE_SECONDS', 60))
 delay_seconds = int(os.getenv('DELAY_SECONDS', 18))
 
 
-class CaptureCLI:
+class TwitchCapture:
 
     _cap = None
     _file_name = None
@@ -22,14 +20,29 @@ class CaptureCLI:
         self._initialise_file_name()
 
         self._delay()
+        successful = self._record_to_file(twitch_user)
 
-        bashCmd = ["streamlink", "twitch.tv/insomniac", "best", "-o", self._file_name]
-        process = subprocess.Popen(bashCmd, stdout=subprocess.PIPE)
+        return successful
 
-        time.sleep(capture_seconds)
-        process.terminate()
+    def _record_to_file(self, twitch_user):
+        stream_name = twitch_prefix + twitch_user
+        
+        print("INFO: Attempting to record " + str(capture_seconds) + " seconds from " + stream_name +
+              ". This might take long.")
 
-        return True
+        bashCmd = ["streamlink", stream_name, "best", "-o", self._file_name]
+        process = subprocess.Popen(bashCmd, stdout=subprocess.DEVNULL,
+                                   stderr=subprocess.DEVNULL)
+        try:
+            process.communicate(timeout=capture_seconds)[0]
+        except subprocess.TimeoutExpired:
+            process.terminate()
+            print("INFO: Successfully finished recording")
+            return True
+
+        print("ERROR: Can't find stream. Please check that the stream " +
+              "name is correct and is active")
+        return False
 
     def get_file_name(self):
         return self._file_name
@@ -47,8 +60,8 @@ class CaptureCLI:
 
 
 if __name__ == "__main__":
-    capture = CaptureCLI()
-    successful = capture.record('insomniac')
+    capture = TwitchCapture()
+    successful = capture.record('kenjibrameld')
     if successful:
         print("Recorded file: " + capture.get_file_name())
     else:
