@@ -15,7 +15,7 @@ from linebot.models import (
     TemplateSendMessage, ButtonsTemplate, URIAction
 )
 
-from Capture import Capture
+from TwitchCapture import TwitchCapture
 from SendAnywhereUpload import Upload
 
 
@@ -88,7 +88,7 @@ def make_button_template(link):
 
 def capture_upload_create_message(twitch_user):
     print("INFO: Twitch User sent in user message: " + twitch_user)
-    capture = Capture()
+    capture = TwitchCapture()
     successful = capture.record(twitch_user)
 
     if successful:
