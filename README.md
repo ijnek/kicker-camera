@@ -7,10 +7,10 @@
 
 
 ## LINE使用流れ
-![](resources/screenshots.png)
+![](docs/screenshots.png)
 
 ## 動画例（Hakuba47）
-![](resources/kicker_camera.gif)
+![](docs/kicker_camera.gif)
 
 
 # 必要な機材
@@ -26,7 +26,7 @@
 
 設置カメラのセットアップは少し手間がかかります。以下のシステム構造を分かっておくと、セットアップ手順が分かりやすくなります。
 
-![](resources/structure.png)
+![](docs/structure.png)
 
 # セットアップ手順
 
@@ -54,25 +54,25 @@
 ## LINEセットアップ
 ### LINE Business アカウントを作成
 
-![](resources/line_sign_up.png)
+![](docs/line_sign_up.png)
 
 [LINE Businessサインアップ画面](https://account.line.biz/signup?redirectUri=https%3A%2F%2Fmanager.line.biz%2F&_ga=2.259523146.1728940530.1617949361-1384753008.1617949361)から [**メールアドレスで登録**] を選択して、Line Businessのアカウントを作ります。
 
 ### LINE Developers チャネル作成
 
-![](resources/line_dev_login.png)
+![](docs/line_dev_login.png)
 
 サインアップが終わり、[LineDevelopersページ](https://developers.line.biz/en/)にログインします。[**ビジネスアカウントでログイン**]を選択して、開発用のアカウントを作ります。次の画面が開きます。
 
-![](resources/create_a_new_provider.png)
+![](docs/create_a_new_provider.png)
 
 Providersタブを開き [**新規プロバイダーを作成**] をクリックします。
 
-![](resources/provider_name.png)
+![](docs/provider_name.png)
 
 プロバイダー名は何でも良いです、上のようにKickerCameraで問題ありません。[**作成**]をクリックします。
 
-![](resources/new_messaging_api.png)
+![](docs/new_messaging_api.png)
 
 上の画面で、**Messaging API** を選択して、MessagingAPIを作ります。
 
@@ -82,7 +82,7 @@ Providersタブを開き [**新規プロバイダーを作成**] をクリック
 
 ## チャンネルシークレットとチャンネルトークンの取得
 
-![](resources/click-channel.png)
+![](docs/click-channel.png)
 
 [チャンネル基本設定]タブの**チャンネルシークレット**は後で使うので、メモアプリ等に控えておきます。\
 [Messaging API設定]タブの**チャンネルアクセストークン**を発行します。後で使うので控えておきます。
@@ -110,6 +110,6 @@ LINE Developersコンソールで、Messaging APIチャネルの［Messaging API
 
 例：アプリ名が「kicker-camera-test-1」の場合、Webhook URLは `https://kicker-camera-test-1.herokuapp.com/callback` になります。
 
-![](resources/webhook_url.png)
+![](docs/webhook_url.png)
 
 [**Webhookの利用**］を有効にします。
