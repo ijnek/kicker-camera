@@ -27,7 +27,7 @@ class CaptureCLI:
         process = subprocess.Popen(bashCmd, stdout=subprocess.PIPE)
 
         time.sleep(capture_seconds)
-        process.terminate()
+        process.kill()
 
         return True
 
