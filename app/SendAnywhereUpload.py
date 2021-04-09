@@ -29,8 +29,10 @@ class Upload:
         print('INFO: Upload link is: ' + upload_link)
         print('INFO: SendAnywhere key is: ' + key)
 
-        threading.Thread(
-            target=self._p2p_transfer, args=(name, upload_link)).start()
+        # threading.Thread(
+        #     target=self._p2p_transfer, args=(name, upload_link)).start()
+        if os.path.exists(name):
+            os.remove(name)
 
         r = requests.get('https://send-anywhere.com/web/v1/key/' + key,
                          cookies=cookies).json()
@@ -54,8 +56,8 @@ class Upload:
         except requests.ConnectionError:
             print("ERROR: P2P transfer reached timeout of " + str(TIMEOUT) + " minutes. (ConnectionError)")
 
-        if os.path.exists(name):
-            os.remove(name)
+        # if os.path.exists(name):
+        #     os.remove(name)
 
 
 if __name__ == "__main__":
