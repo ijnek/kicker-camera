@@ -14,6 +14,14 @@
         "TWITCH_USERNAME": {
             "description": "Twitch のユーザーネーム",
             "required": true
+        },
+        "DELAY_SECONDS": {
+            "description": "ストリーミングのラグを解消するために何秒、録画開始を遅らせるか",
+            "value": "18"
+        },
+        "CAPTURE_SECONDS": {
+            "description": "何秒録画をするか",
+            "value": "60"
         }
     }
 }
