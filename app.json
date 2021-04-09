@@ -1,15 +1,18 @@
 {
     "name": "KickerCamera",
     "repository": "https://github.com/ijnek/kicker-camera",
-    "keywords": ["line", "twitch"],
+    "keywords": [
+        "line",
+        "twitch"
+    ],
     "env": {
         "LINE_BOT_CHANNEL_TOKEN": {
             "description": "LINE チャンネルアクセストークン",
-            "required":  true
+            "required": true
         },
         "LINE_BOT_CHANNEL_SECRET": {
             "description": "LINE チャンネルシークレット",
-            "required":  true
+            "required": true
         },
         "TWITCH_USERNAME": {
             "description": "Twitch のユーザーネーム",
@@ -23,5 +26,13 @@
             "description": "何秒録画をするか",
             "value": "60"
         }
-    }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        },
+        {
+            "url": "https://github.com/heroku/heroku-buildpack-apt"
+        }
+    ]
 }
