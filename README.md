@@ -41,33 +41,43 @@
 
 ## Gmail アカウントを作成
 
-カメラ用の新しいGmailアカウントを作成する事をオススメします。
+[Gmailサインアップ](https://accounts.google.com/signup/v2/webcreateaccount?service=mail&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F%3Fpc%3Dtopnav-about-n-en&flowName=GlifWebSignIn&flowEntry=SignUp)から新しいアカウントを作成します。
+電話番号と再設定用のメールアドレスは入力しなくて良いです。
+**メールアドレスとパスワードは忘れないように保管してください。**
 
 ## Twitch アカウントを作成
 
 [Twitch Sign Up](https://www.twitch.tv/signup) からアカウントを無料で作成します。メールアドレスは先程作成したアカウントを使用します。
+**ユーザーネームとパスワードは忘れないように保管してください。**
 
-![](resources/twitch-signup.png)
 
-## LINE Developers アカウントを作成
-
-[LINE Businessサインイン画面](https://account.line.biz/signup)から [**Sign up with email**] を選択して、メールアドレスからLine Businessのアカウントを作る。
+## LINEセットアップ
+### LINE Business アカウントを作成
 
 ![](resources/line_sign_up.png)
 
-サインアップが終わり、LineDevelopersページにログイン出来たらProvidersタブを開き **Create a new provider** を押す。
+[LINE Businessサインアップ画面](https://account.line.biz/signup?redirectUri=https%3A%2F%2Fmanager.line.biz%2F&_ga=2.259523146.1728940530.1617949361-1384753008.1617949361)から [**メールアドレスで登録**] を選択して、Line Businessのアカウントを作ります。
+
+### LINE Developers チャネル作成
+
+![](resources/line_dev_login.png)
+
+サインアップが終わり、[LineDevelopersページ](https://developers.line.biz/en/)にログインします。[**ビジネスアカウントでログイン**]を選択して、開発用のアカウントを作ります。次の画面が開きます。
 
 ![](resources/create_a_new_provider.png)
 
-プロバイダー名は何でも良いです、以下のようにKickerCameraで問題ありません。
+Providersタブを開き [**新規プロバイダーを作成**] をクリックします。
 
 ![](resources/provider_name.png)
 
-**Create a Messaging API channel** を選択します。
+プロバイダー名は何でも良いです、上のようにKickerCameraで問題ありません。[**作成**]をクリックします。
 
 ![](resources/new_messaging_api.png)
 
-チャンネル名を**キッカーカメラ**にし、CategoryとSubcategoryは適当に選択して、チャンネルを作成します。
+上の画面で、**Messaging API** を選択して、MessagingAPIを作ります。
+
+**チャネル名は、ユーザーの携帯に表示されるボットのラインアカウントの名前になります。**(例：キッカーカメラ）\
+チャネル説明、大業種、小業種は、適当に選択してチャンネルを作成します。
 
 
 ## チャンネルシークレットとチャンネルトークンの取得
@@ -91,14 +101,14 @@
 * ラインチャンネルトークン
 * Twitch ユーザー名
 
-## LINEでWebhook URLを設定する
+## LINE Developers で Webhook URLを設定する
 
 LINE Developersに戻り、
 LINE Developersコンソールで、Messaging APIチャネルの［Messaging API設定］タブをクリックします。
 
 「https://{HEROKU_APP_NAME}.herokuapp.com/callback」というURL形式で、Webhook URLを入力します。
 
-例：アプリ名が「kicker-camera-test-1」の場合、Webhook URLは `https://kicker-camera-test-1.herokuapp.com/callback` になる。
+例：アプリ名が「kicker-camera-test-1」の場合、Webhook URLは `https://kicker-camera-test-1.herokuapp.com/callback` になります。
 
 ![](resources/webhook_url.png)
 
