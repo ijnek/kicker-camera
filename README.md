@@ -7,10 +7,10 @@
 
 
 ## LINE使用流れ
-![](docs/screenshots.png)
+![](readme-images/screenshots.png)
 
 ## 動画例（Hakuba47）
-![](docs/kicker_camera.gif)
+![](readme-images/kicker_camera.gif)
 
 
 # 必要な機材
